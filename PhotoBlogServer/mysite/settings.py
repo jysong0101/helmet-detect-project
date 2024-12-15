@@ -51,10 +51,30 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("localhost", 6379)],  # WSL Redis IP 및 포트를 확인하세요
+            "hosts": [
+                ("redis-10815.c340.ap-northeast-2-1.ec2.redns.redis-cloud.com", 10815)
+            ],
+            "password": "W9Z07ho0dQPrbXhYPSI4ZX7Us67GMxIK",  # Redis 호스팅에서 제공된 비밀번호
+            "ssl": True,  # SSL 사용 여부 (무료 호스팅 제공자에 따라 설정 필요)
         },
     },
 }
+
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("localhost", 6379)],  # WSL Redis IP 및 포트를 확인하세요
+#         },
+#     },
+# }
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer",
+#     },
+# }
 
 
 MIDDLEWARE = [
@@ -67,6 +87,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'mysite.urls'
 

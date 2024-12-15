@@ -20,7 +20,7 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 public class WebSocketManager {
-    private static final String SERVER_URL = "ws://10.0.2.2:8080/ws/notifications/";
+    private static final String SERVER_URL = "wss://juyeop.pythonanywhere.com/ws/notifications/";
     private WebSocket webSocket;
     private Context context;
 
