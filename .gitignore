@@ -1,3 +1,6 @@
 dataset/
 helmet-data/
 human-data/
+*.json
+node_modules/
+websocket-server/
