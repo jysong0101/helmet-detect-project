@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-&j1*zd$=t)gr3)eikk)3h+s#jvqvym18l_#74pf@mu7!s(^ery
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2','.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2','.pythonanywhere.com', 'physically-legible-bengal.ngrok-free.app']
 
 
 # Application definition
@@ -41,9 +41,24 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'blog',
+    "channels",
+    'corsheaders',
 ]
 
+ASGI_APPLICATION = "mysite.asgi.application"  # ASGI 설정 추가
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],  # WSL Redis IP 및 포트를 확인하세요
+        },
+    },
+}
+
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -55,16 +55,20 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-    private String siteUrl = "https://juyeop.pythonanywhere.com/api_root/Post/";
+    private String siteUrl = "http://10.0.2.2:8000/api_root/Post/";
     private TextView textView;
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
     private List<ImageData> imageList = new ArrayList<>(); // ImageData 타입으로 수정
     private Uri selectedImageUri;
     private CloadImage taskDownload;
+    private WebSocketManager webSocketManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +80,21 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // WebSocketManager 초기화 및 연결
+        webSocketManager = new WebSocketManager(this);
+        webSocketManager.connect();
         requestPermissionsIfNecessary();
     }
-
+/*
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 앱 종료 시 WebSocket 연결 종료
+        if (webSocketManager != null) {
+            webSocketManager.disconnect();
+        }
+    }
+*/
     private void requestPermissionsIfNecessary() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityCompat.requestPermissions(this, new String[]{
@@ -177,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url(siteUrl)
                 .post(requestBody)
-                .addHeader("Authorization", "Token 5f16ab618d07687de55f0df65fc5c9ff5838683e") // 본인의 토큰 사용
+                .addHeader("Authorization", "Token 6f006c05c3862d11b170ed7362d1aa3d4fdbbd47") // 본인의 토큰 사용
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -230,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
             List<ImageData> imageDataList = new ArrayList<>();
             try {
                 String apiUrl = urls[0];
-                String token = "8128cfe837315ac5ef4fd866dfd93b47dd49912e"; // 토큰 필요 시 수정
+                String token = "6f006c05c3862d11b170ed7362d1aa3d4fdbbd47"; // 토큰 필요 시 수정
                 URL urlAPI = new URL(apiUrl);
                 HttpURLConnection conn = (HttpURLConnection) urlAPI.openConnection();
                 conn.setRequestProperty("Authorization", "Token " + token);
@@ -312,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url(deleteUrl)
                 .delete()
-                .addHeader("Authorization", "Token 5f16ab618d07687de55f0df65fc5c9ff5838683e") // 본인의 토큰 사용
+                .addHeader("Authorization", "Token 6f006c05c3862d11b170ed7362d1aa3d4fdbbd47") // 본인의 토큰 사용
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -337,4 +353,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
+
